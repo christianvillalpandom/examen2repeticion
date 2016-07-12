@@ -11,19 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160708014916) do
+ActiveRecord::Schema.define(version: 20160708022506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "inventarios", force: :cascade do |t|
-    t.integer  "serie",       null: false
+    t.integer  "serie",        null: false
     t.integer  "tamano"
     t.string   "descripcion"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "operacion_id"
   end
 
+  add_index "inventarios", ["operacion_id"], name: "index_inventarios_on_operacion_id", using: :btree
   add_index "inventarios", ["serie"], name: "index_inventarios_on_serie", using: :btree
 
   create_table "operacions", force: :cascade do |t|
@@ -41,5 +43,6 @@ ActiveRecord::Schema.define(version: 20160708014916) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "inventarios", "operacions"
   add_foreign_key "operacions", "trabajars"
 end
